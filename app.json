@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "market-app",
+    "slug": "market-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "market-app"
+}
