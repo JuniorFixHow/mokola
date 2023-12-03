@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Mokola to use your location."
+        }
+      ]
     ]
   },
   "name": "market-app"
