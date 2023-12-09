@@ -15,8 +15,8 @@ const Map = ({navigation}) => {
   const longitudeDelta = 0.0421;
 
   const [location, setLocation] = useState({
-    longitude: 0.1962,
-    latitude:5.6506,
+    longitude: -0.190625,
+    latitude:5.5910741,
     latitudeDelta,
     longitudeDelta,
   })

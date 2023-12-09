@@ -10,7 +10,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow Mokola to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow Makola to use your location."
         }
       ]
     ]

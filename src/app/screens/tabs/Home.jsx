@@ -4,9 +4,16 @@ import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Vegetables } from '../../../dummy/Vegetable';
 import Basket from '../../components/Basket';
+import { useContext } from 'react';
+import { FetchContext } from '../../context/FetchContext';
+import { useState } from 'react';
 
 const Home = ({navigation}) => {
+    const {cats} = useContext(FetchContext);
     const userImg = "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+    const [search, setSearch] = useState('');
+
   return (
     <SafeAreaView style={styles.main} >
         <StatusBar style='auto' />
@@ -25,25 +32,24 @@ const Home = ({navigation}) => {
                     <TextInput returnKeyType='search' 
                         placeholder='Search here...'
                         style={styles.search}
+                        onChangeText={(e)=>setSearch(e)}
+                        value={search}
                     />
                 </View>
                 <ScrollView showsHorizontalScrollIndicator={false} horizontal >
                     <View style={styles.itemsScroll} >
-                        <TouchableOpacity style={styles.title} >
+                        <TouchableOpacity onPress={()=>setSearch('')} style={styles.title} >
                             <Text style={styles.item} >All</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.title} >
-                            <Text style={styles.item} >Vegetables</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.title} >
-                            <Text style={styles.item} >Proteins</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.title} >
-                            <Text style={styles.item} >Fruits</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.title} >
-                            <Text style={styles.item} >Fresh Potatoes</Text>
-                        </TouchableOpacity>
+                        {
+                            cats.map(item=>(
+                            <TouchableOpacity onPress={()=>setSearch(item.name)} key={item.id} style={styles.title} >
+                                <Text style={styles.item} >{item.name}</Text>
+                            </TouchableOpacity>
+
+                            ))
+                        }
+                       
                     </View>
                 </ScrollView>
             </View>
@@ -51,12 +57,19 @@ const Home = ({navigation}) => {
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{width:'90%', alignSelf:'center'}} style={{width:'100%',}} >
                 <View style={styles.foods} >
                     {
-                        Vegetables.map(food=>(
+                        
+                        cats
+                        .filter(item=>{
+                            return search === ''? item : Object.values(item)
+                            .join(' ')
+                            .toLowerCase()
+                            .includes(search.toLowerCase())})
+                        .map(food=>(
                             <View key={food.id} style={styles.foodCont} >
                                 <Image style={styles.foodimg} source={{uri:food.img}} />
                                 <View style={styles.fooddwon} >
                                     <View style={styles.foodtext} >
-                                        <Text style={{fontWeight:'500', fontSize:20,}} >{food.title}</Text>
+                                        <Text style={{fontWeight:'500', fontSize:20,}} >{food.name}</Text>
                                         <Text style={{fontSize:18}} >{food.subt}</Text>
                                     </View>
                                     <TouchableOpacity onPress={()=>navigation.navigate('Single', {food})} style={styles.add} >
@@ -124,7 +137,7 @@ const styles = StyleSheet.create({
     foods:{
         gap:25,
         width:'100%',
-        paddingBottom:170,
+        paddingBottom:30,
         alignItems:'center'
     },
     item:{
@@ -193,12 +206,13 @@ const styles = StyleSheet.create({
         marginTop:50,
         width:'92%',
         alignItems:'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        flex:1,
     },
     main:{
         width:'100%',
         alignItems:'center',
         backgroundColor:'#fff',
-        // flex:1,
+        flex:1,
     }
 })

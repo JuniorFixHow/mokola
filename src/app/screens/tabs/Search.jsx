@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, SafeAreaView, Pressable, ScrollView, TextInput } from 'react-native'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import Basket from '../../components/Basket';
+import { FetchContext } from '../../context/FetchContext';
 
 const Search = ({navigation}) => {
+    const {cats} = useContext(FetchContext);
+    const [search, setSearch] = useState('');
   return (
     <SafeAreaView style={styles.main} >
         <StatusBar style='auto'  />
@@ -16,38 +19,25 @@ const Search = ({navigation}) => {
             <TextInput returnKeyType='search' 
                 placeholder='Search here...'
                 style={styles.search}
+                onChangeText={(e)=>setSearch(e)}
+                value={search}
             />
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{width:'100%'}} >
             <View style={styles.results} >
-                <Pressable>
-                    <Text style={styles.item} >TOMATOES</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >CABBAGE</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >GALLIC</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >CHICKEN</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >BEEF</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >PORK</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >VEGETABLE OIL</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >EGG</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={styles.item} >APPLE</Text>
-                </Pressable>
-                
+            {
+                cats
+                .filter(item=>{
+                    return search === ''? item : Object.values(item)
+                    .join(' ')
+                    .toLowerCase()
+                    .includes(search.toLowerCase())})
+                .map(item=>(
+                    <Pressable onPress={()=>navigation.navigate('Single', {food:item})} key={item.id} >
+                        <Text style={styles.item} >{item.name.toUpperCase()}</Text>
+                    </Pressable>
+                ))
+            }
             </View>
         </ScrollView>
       </View>
