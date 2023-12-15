@@ -1,9 +1,29 @@
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
+import { AuthContext } from '../../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Board = ({navigation}) => {
+    const {onboardNewUser, isNewUser, setIsNewUser} = useContext(AuthContext);
     const URL = "https://www.graphic.com.gh/images/2018/july/food.png";
+    // useEffect(()=>{
+    //     if(!isNewUser){
+    //         navigation.replace('Tab')
+    //     }
+    // },[])
+    useEffect(()=>{
+        AsyncStorage.getItem('new').then(e=>{
+            if(e==='null'){
+                navigation.replace('Tab')
+            }
+        })
+    },
+    [])
+    const moveBoard = ()=>{
+        onboardNewUser();
+        navigation.replace('Tab')
+    }
   return (
     <SafeAreaView style={styles.main} >
         <StatusBar style='suto' />
@@ -15,7 +35,7 @@ const Board = ({navigation}) => {
             </View>
             <Image style={styles.imgg} source={{uri:URL}}  />
         </View>
-        <TouchableOpacity onPress={()=>navigation.navigate('Login')} style={styles.cont} >
+        <TouchableOpacity onPress={moveBoard} style={styles.cont} >
             <Text style={{fontSize:20, color:'#fff', fontWeight:'500'}} >CONTINUE</Text>
         </TouchableOpacity>
       </View>

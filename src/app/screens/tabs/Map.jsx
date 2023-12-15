@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import CART from '../../../assets/cart.png';
 import Basket from '../../components/Basket';
 import * as Location from 'expo-location';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -53,7 +53,7 @@ const Map = ({navigation}) => {
               <View style={styles.map} >
                 <MapView 
                 initialRegion={location}
-                provider={PROVIDER_GOOGLE}
+                // provider={PROVIDER_GOOGLE}
                  style={styles.mapv} >
                   <Marker coordinate={location} title='Current location' />
                 </MapView>

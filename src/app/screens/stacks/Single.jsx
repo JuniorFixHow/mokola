@@ -8,10 +8,13 @@ import Basket from '../../components/Basket';
 import { useEffect } from 'react';
 import { addDoc, collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../../firebase';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const {height} = Dimensions.get('screen');
 
 const Single = ({navigation}) => {
+    const {user} = useContext(AuthContext)
     const {params} = useRoute();
     const [count, setCount] = useState([]);
     const [foods, setFoods] = useState([]);
@@ -54,7 +57,7 @@ const Single = ({navigation}) => {
             name,
             price: count.filter(item=>item.id=== id)[0]?.value ? count.filter(item=>item.id=== id)[0]?.value * price : price,
             quantity:count.filter(item=>item.id=== id)[0]?.value > 0? count.filter(item=>item.id=== id)[0]?.value : 1,
-            creator:123,
+            creator:user.uid,
         }
         try {
             alert('Added ✅')

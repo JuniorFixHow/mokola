@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView, Pressable } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons, AntDesign, Foundation, Feather, FontAwesome5 } from '@expo/vector-icons';
 import Basket from '../../components/Basket';
+import { AuthContext } from '../../context/AuthContext';
 
 const Profile = ({navigation}) => {
+    const {logout, user} = useContext(AuthContext);
     const userImg = "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
     <SafeAreaView style={styles.main}>
@@ -15,10 +17,10 @@ const Profile = ({navigation}) => {
                 <Text style={{fontSize:24, fontWeight:'700', width:'100%'}} >Profile</Text>
                 <View style={styles.userCont} >
                     <View style={styles.imgCont} >
-                        <Image style={styles.userImg} source={{uri:userImg}} />
+                        <Image style={styles.userImg} source={{uri:user.photoURL}} />
                     </View>
                     <View style={styles.text} >
-                        <Text style={{fontSize:22, fontWeight:'500'}} >Mensah Akua</Text>
+                        <Text style={{fontSize:22, fontWeight:'500'}} >{user.displayName}</Text>
                         <Text style={{fontSize:22, fontWeight:'500'}} >+233 508 9012 807</Text>
                     </View>
                 </View>
@@ -60,7 +62,7 @@ const Profile = ({navigation}) => {
                     </Pressable>
                 </View>
             </View>
-            <TouchableOpacity style={styles.out} >
+            <TouchableOpacity onPress={logout} style={styles.out} >
                 <Text style={{fontSize:18, fontWeight:'500'}} >LOGOUT</Text>
             </TouchableOpacity>
         </View>

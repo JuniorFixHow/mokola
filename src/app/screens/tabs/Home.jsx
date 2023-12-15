@@ -2,14 +2,16 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, TextInpu
 import React from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
-import { Vegetables } from '../../../dummy/Vegetable';
 import Basket from '../../components/Basket';
 import { useContext } from 'react';
 import { FetchContext } from '../../context/FetchContext';
 import { useState } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const Home = ({navigation}) => {
     const {cats} = useContext(FetchContext);
+    const {user} = useContext(AuthContext);
+    // console.log(user.uid)
     const userImg = "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
     const [search, setSearch] = useState('');
@@ -21,9 +23,9 @@ const Home = ({navigation}) => {
         <View style={styles.container} >
             <View style={styles.top} >
                 <View style={styles.welcome} >
-                    <Image style={styles.userImg} source={{uri:userImg}} />
+                    <Image style={styles.userImg} source={{uri:user.photoURL}} />
                     <View style={styles.userCont} >
-                        <Text style={{fontSize:24, fontWeight:'500'}} >Hi, Akua</Text>
+                        <Text style={{fontSize:24, fontWeight:'500'}} >Hi, {user.displayName.split(' ')[0]}</Text>
                         <Text style={{fontSize:22, fontWeight:'200',}} >Looking for what to buy?</Text>
                     </View>
                 </View>

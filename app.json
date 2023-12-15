@@ -1,19 +1,56 @@
 {
   "expo": {
-    "name": "market-app",
-    "slug": "market-app",
+    "name": "Makola",
+    "slug": "Makola",
     "version": "1.0.0",
+    "icon": "./src/assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
     ],
     "plugins": [
+      "@react-native-google-signin/google-signin",
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow Makola to use your location."
         }
       ]
-    ]
+    ],
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fixhowguests.Makola",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config":{
+        "googleMapsApiKey":"AIzaSyB3BPN8kehzDlVOh0xSImqiFJOxunj4hFI"
+      }
+    },
+    "android": {
+      "package": "com.fixhowguests.Makola",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png"
+      },
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyDrM5glN--WaCzY5dwBXfUp9UPVkf2lD8o"
+        }
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a2ac1157-afc9-484f-a7b9-30eda82df5c3"
+      }
+    }
   },
-  "name": "market-app"
+  "name": "Makola"
 }

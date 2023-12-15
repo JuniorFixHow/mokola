@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "368988567979",
+    "project_id": "mokola-74591",
+    "storage_bucket": "mokola-74591.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368988567979:android:924e2e834590feeee37aee",
+        "android_client_info": {
+          "package_name": "com.fixhowguests.Makola"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368988567979-024jm9qsa4qmuse659omcc3ovgekfs2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fixhowguests.Makola",
+            "certificate_hash": "c23d421510e2d9852f4aef77c7b9ecd91bcc95a7"
+          }
+        },
+        {
+          "client_id": "368988567979-892i30sushsji5hpantqor021t54fglt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fixhowguests.Makola",
+            "certificate_hash": "bb49954d0967caa1758324bcfde8968cbe6ef141"
+          }
+        },
+        {
+          "client_id": "368988567979-7hs7a83lbb8cpr2j0v0k7c57jeaus98t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCldd7KdjmT0v71jVxOuF-284vhxjjdsFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368988567979-7hs7a83lbb8cpr2j0v0k7c57jeaus98t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "368988567979-qiglkdmurnmums15hnc6rm9panphqba2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fixhowguests.Makola"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

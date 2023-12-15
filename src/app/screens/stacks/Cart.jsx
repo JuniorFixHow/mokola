@@ -2,20 +2,22 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Pressable, Scro
 import React, { useEffect } from 'react';
 import { AntDesign, Entypo, Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { Vegetables } from '../../../dummy/Vegetable';
 import { useState } from 'react';
 import Pay from '../../components/Pay';
 import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../../../firebase';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const Cart = ({navigation}) => {
+    const {user} = useContext(AuthContext)
     const [openPay, setOpenPay] = useState(false);
     const [userCarts, setUserCarts] = useState([]);
 
     useEffect(()=>{
       
         const reference = collection(db, 'Carts');
-        const q = query(reference, where("creator", "==", 123))
+        const q = query(reference, where("creator", "==", user.uid))
         console.log(q)
         const unsub = onSnapshot(
             q,  (snapshot)=>{
@@ -23,7 +25,7 @@ const Cart = ({navigation}) => {
                 snapshot.docs.forEach((doc)=>{
                     list.push({id:doc.id, ...doc.data()})
                 })
-                console.log(list)
+                // console.log(list)
                 setUserCarts(list);
                 
             },

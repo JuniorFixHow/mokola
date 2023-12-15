@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image } from 'react-native'
-import React, {useState, useEffect, useRef} from 'react'
+import { StyleSheet, Alert, Text, View, SafeAreaView, TouchableOpacity, Image } from 'react-native'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import PhoneInput from 'react-native-phone-number-input';
 import {  Ionicons,  Entypo, MaterialIcons } from '@expo/vector-icons';
 import GOOGLE from '../../../assets/google.png';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { auth } from '../../../../firebase';
+import { AuthContext } from '../../context/AuthContext';
+import Loading from '../../components/Loading';
 
 const Login = ({navigation}) => {
+    const {login} = useContext(AuthContext);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [formattedNumber, setFormattedNumber] = useState(undefined);
     const [isValid, setIsValid] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const otpInput = useRef(null);
     const phone = useRef(null);
@@ -29,6 +36,48 @@ const Login = ({navigation}) => {
             setIsValid(false);
         }
     }, [phoneNumber, phone, formattedNumber])
+
+
+    GoogleSignin.configure({
+        webClientId:'368988567979-7hs7a83lbb8cpr2j0v0k7c57jeaus98t.apps.googleusercontent.com'
+    })
+    // useEffect(()=>{
+    // },[])
+
+    const onGoogleButtonPress = async()=>{
+        try {
+            setLoading(true);
+            await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog:true});
+            const {idToken} = await GoogleSignin.signIn();
+            setLoading(false);
+
+            const googleCredential = new GoogleAuthProvider.credential(idToken);
+
+            try {
+                setLoading(true);
+                const user = await signInWithCredential(auth, googleCredential);
+                if(user){
+                    login(user.user);
+                    setLoading(false);
+                }
+            } catch (error) {
+                setLoading(false);
+                console.log(error);
+                Alert.alert('Network error', 'Check your internet connection')
+            }
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+            alert('Error occured in the process');
+        }
+    }
+
+    if(loading){
+        return(
+            <Loading message={'Validating account. Please wait...'} />
+        )
+    }
+
   return (
     <SafeAreaView style={styles.main} >
         <StatusBar style='auto' />
@@ -61,12 +110,12 @@ const Login = ({navigation}) => {
                         <Ionicons name="checkmark-circle-outline" size={24} color="green" />
                     }
                 </View>
-                <TouchableOpacity onPress={()=>navigation.navigate('Tab')} style={styles.cont} >
+                <TouchableOpacity style={styles.cont} >
                     <Text style={{fontWeight:'500', color:'#fff', fontSize:24}} >Continue</Text>
                 </TouchableOpacity>
                 <View style={styles.orcont} ><Text style={styles.or}>or</Text></View>
                 <View style={styles.socials} >
-                    <TouchableOpacity style={styles.gcont} >
+                    <TouchableOpacity onPress={onGoogleButtonPress} style={styles.gcont} >
                         <Image source={GOOGLE} style={styles.google} />
                         <Text style={styles.gtext} >Continue with Google</Text>
                     </TouchableOpacity>
